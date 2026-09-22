@@ -1,0 +1,418 @@
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, margin=8em]{geometry}
+
+% usa i pacchetti per la scrittura in italiano
+\usepackage[french,italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\frenchspacing 
+
+% usa i pacchetti per la formattazione matematica
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+
+% usa altri pacchetti
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{standalone}
+
+\usepackage{colortbl}
+
+\usepackage{xstring}
+\usepackage{karnaugh-map}
+
+% imposta il titolo
+\title{Specification and Simulation of Digital Systems notes}
+\author{Luca Seggiani}
+\date{2026}
+
+% imposta lo stile
+% usa helvetica
+\usepackage[scaled]{helvet}
+% usa palatino
+\usepackage{palatino}
+% usa un font monospazio guardabile
+\usepackage{lmodern}
+
+\renewcommand{\rmdefault}{ppl}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\ttdefault}{lmtt}
+
+% circuiti
+\usepackage{circuitikz}
+\usetikzlibrary{babel}
+
+% testo cerchiato
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+% disponi il titolo
+\makeatletter
+\renewcommand{\maketitle} {
+	\begin{center} 
+		\begin{minipage}[t]{.8\textwidth}
+			\textsf{\huge\bfseries \@title} 
+		\end{minipage}%
+		\begin{minipage}[t]{.2\textwidth}
+			\raggedleft \vspace{-1.65em}
+			\textsf{\small \@author} \vfill
+			\textsf{\small \@date}
+		\end{minipage}
+		\par
+	\end{center}
+
+	\thispagestyle{empty}
+	\pagestyle{fancy}
+}
+\makeatother
+
+% disponi teoremi
+\usepackage{tcolorbox}
+\newtcolorbox[auto counter, number within=section]{theorem}[2][]{%
+	colback=blue!10, 
+	colframe=blue!40!black, 
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries, 
+	title=Theorem~\thetcbcounter: #2, 
+	#1
+}
+
+% disponi definizioni
+\newtcolorbox[auto counter, number within=section]{definition}[2][]{%
+	colback=red!10,
+	colframe=red!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Definition~\thetcbcounter: #2,
+	#1
+}
+
+% disponi codice
+\usepackage{listings}
+\usepackage[table]{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{codestyle}{
+		backgroundcolor=\color{black!5}, 
+		commentstyle=\color{codegreen},
+		keywordstyle=\bfseries\color{magenta},
+		numberstyle=\sffamily\tiny\color{black!60},
+		stringstyle=\color{green!50!black},
+		basicstyle=\ttfamily\footnotesize,
+		breakatwhitespace=false,         
+		breaklines=true,                 
+		captionpos=b,                    
+		keepspaces=true,                 
+		numbers=left,                    
+		numbersep=5pt,                  
+		showspaces=false,                
+		showstringspaces=false,
+		showtabs=false,                  
+		tabsize=2
+}
+
+\lstdefinestyle{shellstyle}{
+		backgroundcolor=\color{black!5}, 
+		basicstyle=\ttfamily\footnotesize\color{black}, 
+		commentstyle=\color{black}, 
+		keywordstyle=\color{black},
+		numberstyle=\color{black!5},
+		stringstyle=\color{black}, 
+		showspaces=false,
+		showstringspaces=false, 
+		showtabs=false, 
+		tabsize=2, 
+		numbers=none, 
+		breaklines=true
+}
+
+
+\lstdefinelanguage{assembler}{ 
+  keywords={AAA, AAD, AAM, AAS, ADC, ADCB, ADCW, ADCL, ADD, ADDB, ADDW, ADDL, AND, ANDB, ANDW, ANDL,
+        ARPL, BOUND, BSF, BSFL, BSFW, BSR, BSRL, BSRW, BSWAP, BT, BTC, BTCB, BTCW, BTCL, BTR, 
+        BTRB, BTRW, BTRL, BTS, BTSB, BTSW, BTSL, CALL, CBW, CDQ, CLC, CLD, CLI, CLTS, CMC, CMP,
+        CMPB, CMPW, CMPL, CMPS, CMPSB, CMPSD, CMPSW, CMPXCHG, CMPXCHGB, CMPXCHGW, CMPXCHGL,
+        CMPXCHG8B, CPUID, CWDE, DAA, DAS, DEC, DECB, DECW, DECL, DIV, DIVB, DIVW, DIVL, ENTER,
+        HLT, IDIV, IDIVB, IDIVW, IDIVL, IMUL, IMULB, IMULW, IMULL, IN, INB, INW, INL, INC, INCB,
+        INCW, INCL, INS, INSB, INSD, INSW, INT, INT3, INTO, INVD, INVLPG, IRET, IRETD, JA, JAE,
+        JB, JBE, JC, JCXZ, JE, JECXZ, JG, JGE, JL, JLE, JMP, JNA, JNAE, JNB, JNBE, JNC, JNE, JNG,
+        JNGE, JNL, JNLE, JNO, JNP, JNS, JNZ, JO, JP, JPE, JPO, JS, JZ, LAHF, LAR, LCALL, LDS,
+        LEA, LEAVE, LES, LFS, LGDT, LGS, LIDT, LMSW, LOCK, LODSB, LODSD, LODSW, LOOP, LOOPE,
+        LOOPNE, LSL, LSS, LTR, MOV, MOVB, MOVW, MOVL, MOVSB, MOVSD, MOVSW, MOVSX, MOVSXB,
+        MOVSXW, MOVSXL, MOVZX, MOVZXB, MOVZXW, MOVZXL, MUL, MULB, MULW, MULL, NEG, NEGB, NEGW,
+        NEGL, NOP, NOT, NOTB, NOTW, NOTL, OR, ORB, ORW, ORL, OUT, OUTB, OUTW, OUTL, OUTSB, OUTSD,
+        OUTSW, POP, POPL, POPW, POPB, POPA, POPAD, POPF, POPFD, PUSH, PUSHL, PUSHW, PUSHB, PUSHA, 
+				PUSHAD, PUSHF, PUSHFD, RCL, RCLB, RCLW, MOVSL, MOVSB, MOVSW, STOSL, STOSB, STOSW, LODSB, LODSW,
+				LODSL, INSB, INSW, INSL, OUTSB, OUTSL, OUTSW
+        RCLL, RCR, RCRB, RCRW, RCRL, RDMSR, RDPMC, RDTSC, REP, REPE, REPNE, RET, ROL, ROLB, ROLW,
+        ROLL, ROR, RORB, RORW, RORL, SAHF, SAL, SALB, SALW, SALL, SAR, SARB, SARW, SARL, SBB,
+        SBBB, SBBW, SBBL, SCASB, SCASD, SCASW, SETA, SETAE, SETB, SETBE, SETC, SETE, SETG, SETGE,
+        SETL, SETLE, SETNA, SETNAE, SETNB, SETNBE, SETNC, SETNE, SETNG, SETNGE, SETNL, SETNLE,
+        SETNO, SETNP, SETNS, SETNZ, SETO, SETP, SETPE, SETPO, SETS, SETZ, SGDT, SHL, SHLB, SHLW,
+        SHLL, SHLD, SHR, SHRB, SHRW, SHRL, SHRD, SIDT, SLDT, SMSW, STC, STD, STI, STOSB, STOSD,
+        STOSW, STR, SUB, SUBB, SUBW, SUBL, TEST, TESTB, TESTW, TESTL, VERR, VERW, WAIT, WBINVD,
+        XADD, XADDB, XADDW, XADDL, XCHG, XCHGB, XCHGW, XCHGL, XLAT, XLATB, XOR, XORB, XORW, XORL},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{language=assembler, style=codestyle}
+
+% disponi sezioni
+\usepackage{titlesec}
+
+\titleformat{\section}
+	{\sffamily\Large\bfseries} 
+	{\thesection}{1em}{} 
+\titleformat{\subsection}
+	{\sffamily\large\bfseries}   
+	{\thesubsection}{1em}{} 
+\titleformat{\subsubsection}
+	{\sffamily\normalsize\bfseries} 
+	{\thesubsubsection}{1em}{}
+
+% tikz
+\usepackage{tikz}
+
+% float
+\usepackage{float}
+
+% grafici
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+
+% disponi alberi
+\usepackage{forest}
+
+\forestset{
+	rectstyle/.style={
+		for tree={rectangle,draw,font=\large\sffamily}
+	},
+	roundstyle/.style={
+		for tree={circle,draw,font=\large}
+	}
+}
+
+% disponi algoritmi
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\makeatletter
+\renewcommand{\ALG@name}{Algorithm}
+\makeatother
+
+% disponi numeri di pagina
+\usepackage{fancyhdr}
+\fancyhf{} 
+\fancyfoot[L]{\sffamily{\thepage}}
+
+\makeatletter
+\fancyhead[L]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@title \ \@date}}} 
+\fancyhead[R]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@author}}}
+\makeatother
+
+\begin{document}
+% sezione (data)
+\section{Lesson 22-09-26}
+
+% stili pagina
+\thispagestyle{empty}
+\pagestyle{fancy}
+
+% testo
+\subsection{Introduction}
+
+The course aims to give an introduction to the use of \textbf{HDL}s (\textit{Hardware Description Languages}): 
+\begin{itemize}
+	\item
+We will see HDLs used as \textit{specification languages} used to design hardware.
+Both \textit{Verilog} and \textit{VHDL} are used, respectively industry and academic based;
+
+	\item
+High level concepts will be studied at the \textbf{RT} (\textit{Register Transfer}) level of abstraction. We'll also see design methodologies for \textbf{ASIC}s (\textit{Application-Specific Integrated Circuits}) and \textbf{FPGA}s (\textit{Field Programmable Gate Arrays});
+
+	\item
+Simulation tools are the main tool available for verification and validation of designs. Other important tools include \textbf{CAD}-based formal verification, and mathematical \textit{formal verification} methods.
+\end{itemize}
+
+The topics covered will be:
+\begin{itemize}
+	\item Usage of \textbf{simulation} tools such as the Xilinx Vivado suite of programs;
+	\item \textbf{Combinatorial} networks, that is networks where the output value is only determined by the values taken by their inputs;
+	\item \textbf{Sequential} networks, that is networks where the output value is determined both by the values taken by the inputs and internal state. Sequential networns can either be \textit{asynchronous} or \textit{synchronized} to an external clock signal;
+	\item \textbf{FSM}s (\textit{Finite State Machines}), which we will see as a specific class of sequential circuits;
+	\item \textbf{FSM-D} models (FSMs operating at logical level, controlling \textit{datapaths} for data manipulation);
+	\item \textbf{RAM}s (\textit{Random Access Memories}) and \textbf{ROM}s (\textit{Read-Only Memories}), and their respective interfaces facing other components (including ones we will design ourselves).
+\end{itemize}
+
+\subsubsection{VHDL as a specification language}
+
+VHDL will be used and explained in a design-oriented approach covering:
+\begin{enumerate}
+	\item \textbf{Combinatorial} logic;
+	\item \textit{Synchronous} \textbf{sequential} logic (with \textit{asynchronous} sequential logic being mostly a less useful superset);
+	\item \textbf{Datapath} components.
+\end{enumerate}
+Verilog will be covered, by \textit{difference} from VHDL.
+Still, both languages are useful in academic and industrial contexts, and proficiency in both is expected in most design environments. 
+
+\subsubsection{Register Transfer level designs}
+
+We will then move upwards to the \textbf{RT} (\textit{Register Transfer}) level of abstraction.
+RT level is a design abstraction which models a synchronous digital circuit in terms of the flow of digital signals (data) between hardware registers, and the logical operations performed on those signals.
+
+Using this abstraction we will design embedded systems, covering design \textit{metrics} (related to economical, manifacturing, ... factors), design \textit{methodologies} for \textbf{single-purpose} processors.
+
+By \textit{single-purpose}, we mean processors that implement a specific algorithm in hardware (ASICs, FPGAs): this is the opposite concept to \textit{general-purpose} computing.
+
+\textbf{FSM} (\textit{Finite State Machine}) optimization will also be covered.
+
+\subsubsection{Formal verification}
+
+The main tool used to verify a design is \textbf{simulation}, and simulation through the Xilinx suite of programs will be studied.
+
+Another method that will be studied is \textbf{formal verification}, that is mathematical methods used to prove the validity of designs indipendent of the given inputs:
+\begin{itemize}
+	\item \textit{Theorem proving} involves expressing the hardware and desired property mathematically, then proving the property from axioms/rules;
+	\item \textit{Equivalence checking} entails, given two designs, proving that they behave equivalently under specified conditions;
+	\item \textit{Model checking} means determining if certain \textit{properties} of our designed system can be proved to be true indipendently of the inputs.
+\end{itemize}
+
+\subsection{VHDL for digital design}
+
+A \textbf{digital system} is an electronic system operating on data encoded as a sequence of zeroes and ones (low and high, off or on values).
+
+When digital design started (aruond the 1960s), the number of components in a circuit was very limited.
+As of today, that number as grown up to billions of components on a single chip.
+
+This growth has made the \textit{documentation} process harder and harder, and the resulting artifacts more and more imprecise and ambiguous.
+
+\subsubsection{HDLs}
+
+The main problem is that \textit{natural language} is not fit for description of a digital system.
+For this reason, machine-readable textual languages were invented for describing hardware.
+We call these languages \textbf{HDL}s (\textit{Hardware Description Languages}).
+
+HDLs are the opposite of \textit{programming} languages: they don't describe \textit{how} an algorithm is implemented, can't be executed, but describe the \textit{temporal behavoir} and \textit{spatial structure} of an hardware system.
+This allows to combine design and documentation in a single source of truth (documentation of a system can be extracted from its HDL description).
+
+An HDL usually allows us to define:
+\begin{itemize}
+	\item A \textbf{black box} representation of a given system, which only entails its inputs and outputs (which we call the \textit{interface} of the system);
+	\item An \textbf{architectural} view of the system, which entails how the inputs (and optionally, previous state) are combined to generate the outputs.
+		The architecture of a system can be defined in terms of other systems (such as \textit{And}, \textit{Or} and \textit{Not} gates), themselves taken as other black boxes with their own architectural implementation.
+\end{itemize}
+
+Of course, the set of components used to make up the architectural description of a system represents its \textit{spatial structure}.
+The \textit{temporal behavoir}, on the other hand, is specified using other language constructs that specify the timing constants between components.
+
+\subsubsection{VHDL}
+
+\textbf{VHDL} (\textit{VHSIC Hardware Description Language}), with \textbf{VHSIC} (\textit{Very High Speed Integrated Circuit}) being a project of the U.S. Dept. of Defense, is a hardware specification language based on a top-bottom approach.
+The syntax is similar to \textit{Ada}, another U.S. Dept. of Defense creation.
+Today it's mainly used in academia, and is better suited to high-level behavioral modeling.
+
+\subsubsection{Verilog}
+
+\textbf{Verilog} was defined in 1995 at \textit{Gateway Design Automation Inc.}, then acquired by \textit{Cadence Design Systems}.
+The initial implementation was proprietary, and meant for designers to quickly iterate over prototypes in a bottom-up approach.
+Afterwards, the language was extended and made into an open standard.
+The syntax is C-like, and today it's the most significant difference from VHDL.
+Another difference is that Verilog is more fit for low-level work than VHDL.
+
+\subsubsection{Comparison of VHDL and Verilog}
+
+We said that Verilog will be studied by difference.
+
+Other differences to note are noted in the table:
+\begin{table}[H]
+	\center \rowcolors{2}{white}{black!10}
+	\begin{tabular} { p{7cm} | p{7cm} }
+		\bfseries VHDL & \bfseries Verilog \\
+		\hline
+		Ada-like, not \textit{case sensitive} &
+		C-like, \textit{case sensitive} \\
+		Strongly typed, compile time error checking &
+		Weakly typed, less compile time checking, more likely runtime bugs \\
+		Focused on safety & Focused on writing models quickly \\
+		User-defined types, 9 value logic &
+		No user-defined types, 4 value logic \\
+		\lstset{language=VHDL}
+		Hierarchy through \lstinline|entity| definitions and implementation through \lstinline|architecture| &
+		\lstset{language=Verilog}
+		Hierarchy through \lstinline|module| definitions with self contained implementation \\
+		Gate level modeling with \textbf{FPGA} library support &
+		Better \textbf{ASIC} support, user defined primitives \\
+		Assertions & No assertions \\
+		No named events & Named events \\
+		\lstset{language=VHDL}
+		Partial interface abstraction via \lstinline|component| definitions &
+		No interface abstraction \\
+		Packaging via actual packages &
+		Packaging via include files \\
+		Useful for high-level modeling &
+		Better suited for low-level modeling \\
+	\end{tabular}
+\end{table}
+\begin{table}[H]
+	\center \rowcolors{2}{white}{black!10}
+	\begin{tabular} { p{7cm} | p{7cm} }
+		More verbose, meant to act both as design and documentation &
+		Less verbose, no packaging capability, harder to extend \\
+		Unambiguous semantics and easily portable desings, no race conditions &
+		Ambiguous emulation semantics, race conditions possible, different vendors might have different semantics \\
+		No simulation control defined in language &
+		Basic simulation control defined in language
+	\end{tabular}
+\end{table}
+
+\subsubsection{Synthesis}
+
+Today, HDLs are increasingly used for designing ICs in a \textit{top-down} approach involving \textbf{synthesis}:
+\begin{enumerate}
+	\item We \textit{design} the circuit through high-level descriptions;
+	\item We leave the conversion to a low-level representation to \textit{synthesis} tools, which automatically convert HDL behavior to HDL circuits;
+	\item The last step is, of course, \textit{simulation} to validate the design against the original high-level description. 
+\end{enumerate}
+
+Synthesis is not the objective of this course.
+On the other hand, the use of HDLs for synthesis is growing as circuits get more complex, and synthesis tools are maturing.
+One thing to note is that HDLs were originally defined for simulation: some features of the language are not supported by synthesizers (for instance, timing constants don't necessarily translate to low-level components, neither do branching loops such as the \lstinline|while| loop offered by HDLs).
+
+\subsubsection{The Y-chart}
+
+\begin{center}
+	\includegraphics[scale=0.3]{../figures/ychart.png}
+\end{center}
+
+There are different ways of modeling a given system, each with different levels of abstraction:
+\begin{itemize}
+	\item \textbf{Functional}: what the system \textit{does}: this goes all the way from algorithmic (behavioral) representation to RT languages, boolean functions, up to the \textit{differential equations} which govern the electronic components that make up the system;
+	\item \textbf{Structural}: what the system is \textit{made up} of: we can start from high-level blocks such as \textit{processors} and \textit{memories}, look at components which operate at RT level, up to single logic \text{gates} and their implementations based on transistors;
+	\item \textbf{Geometric}: how the components of the system are \textit{laid out} physically. This won't be of much interest in this course, as the focus is on \textit{logical} modeling.
+\end{itemize}
+
+This relates to a set of ways we can model our systems:
+\begin{itemize}
+	\item At the \textit{system} level, we see systems as a set of interconnected high-level components and their interfaces (black boxes);
+	\item At an \textit{algorithmic} level, we see systems through the algorithms they implement;
+	\item At the \textit{RT} level, we see systems through registers and sequential networks that propagate values across them;
+	\item At the \textit{logic} level, we see systems through combinatorial networks (made up of gates) implementing boolean functions;
+	\item At the \textit{transistor} level, we see how gates themselves are implemented through transistors;
+	\item At the \textit{geometry/topology} level, we see how physical components (transistors) are laid out on boards.
+\end{itemize}
+
+The data type we use today in VHDL modeling is the \lstinline|std_logic| type, which implements 9-value logic (compared to other versions, which use simple 2-value logic \lstinline|bit| values).
+
+\end{document}
