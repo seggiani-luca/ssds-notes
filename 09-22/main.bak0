@@ -233,17 +233,17 @@
 % testo
 \subsection{Introduction}
 
-The course aims to give an introduction to the use of \textbf{HDL}s (\textit{Hardware Description Languages}):
+The course aims to give an introduction to the use of \textbf{HDL}s (\textit{Hardware Description Languages}): 
 \begin{itemize}
 	\item
-	      We will see HDLs used as \textit{specification languages} used to design hardware.
-	      Both \textit{Verilog} and \textit{VHDL} are used, respectively industry and academic based;
+We will see HDLs used as \textit{specification languages} used to design hardware.
+Both \textit{Verilog} and \textit{VHDL} are used, respectively industry and academic based;
 
 	\item
-	      High level concepts will be studied at the \textbf{RT} (\textit{Register Transfer}) level of abstraction. We'll also see design methodologies for \textbf{ASIC}s (\textit{Application-Specific Integrated Circuits}) and \textbf{FPGA}s (\textit{Field Programmable Gate Arrays});
+High level concepts will be studied at the \textbf{RT} (\textit{Register Transfer}) level of abstraction. We'll also see design methodologies for \textbf{ASIC}s (\textit{Application-Specific Integrated Circuits}) and \textbf{FPGA}s (\textit{Field Programmable Gate Arrays});
 
 	\item
-	      Simulation tools are the main tool available for verification and validation of designs. Other important tools include \textbf{CAD}-based formal verification, and mathematical \textit{formal verification} methods.
+Simulation tools are the main tool available for verification and validation of designs. Other important tools include \textbf{CAD}-based formal verification, and mathematical \textit{formal verification} methods.
 \end{itemize}
 
 The topics covered will be:
@@ -265,7 +265,7 @@ VHDL will be used and explained in a design-oriented approach covering:
 	\item \textbf{Datapath} components.
 \end{enumerate}
 Verilog will be covered, by \textit{difference} from VHDL.
-Still, both languages are useful in academic and industrial contexts, and proficiency in both is expected in most design environments.
+Still, both languages are useful in academic and industrial contexts, and proficiency in both is expected in most design environments. 
 
 \subsubsection{Register Transfer level designs}
 
@@ -311,7 +311,7 @@ An HDL usually allows us to define:
 \begin{itemize}
 	\item A \textbf{black box} representation of a given system, which only entails its inputs and outputs (which we call the \textit{interface} of the system);
 	\item An \textbf{architectural} view of the system, which entails how the inputs (and optionally, previous state) are combined to generate the outputs.
-	      The architecture of a system can be defined in terms of other systems (such as \textit{And}, \textit{Or} and \textit{Not} gates), themselves taken as other black boxes with their own architectural implementation.
+		The architecture of a system can be defined in terms of other systems (such as \textit{And}, \textit{Or} and \textit{Not} gates), themselves taken as other black boxes with their own architectural implementation.
 \end{itemize}
 
 Of course, the set of components used to make up the architectural description of a system represents its \textit{spatial structure}.
@@ -339,40 +339,40 @@ Other differences to note are noted in the table:
 \begin{table}[H]
 	\center \rowcolors{2}{white}{black!10}
 	\begin{tabular} { p{7cm} | p{7cm} }
-		\bfseries VHDL                                                                                       & \bfseries Verilog                 \\
+		\bfseries VHDL & \bfseries Verilog \\
 		\hline
-		Ada-like, not \textit{case sensitive}                                                                &
-		C-like, \textit{case sensitive}                                                                                                          \\
-		Strongly typed, compile time error checking                                                          &
-		Weakly typed, less compile time checking, more likely runtime bugs                                                                       \\
-		Focused on safety                                                                                    & Focused on writing models quickly \\
-		User-defined types, 9 value logic                                                                    &
-		No user-defined types, 4 value logic                                                                                                     \\
+		Ada-like, not \textit{case sensitive} &
+		C-like, \textit{case sensitive} \\
+		Strongly typed, compile time error checking &
+		Weakly typed, less compile time checking, more likely runtime bugs \\
+		Focused on safety & Focused on writing models quickly \\
+		User-defined types, 9 value logic &
+		No user-defined types, 4 value logic \\
 		\lstset{language=VHDL}
 		Hierarchy through \lstinline|entity| definitions and implementation through \lstinline|architecture| &
 		\lstset{language=Verilog}
-		Hierarchy through \lstinline|module| definitions with self contained implementation                                                      \\
-		Gate level modeling with \textbf{FPGA} library support                                               &
-		Better \textbf{ASIC} support, user defined primitives                                                                                    \\
-		Assertions                                                                                           & No assertions                     \\
-		No named events                                                                                      & Named events                      \\
+		Hierarchy through \lstinline|module| definitions with self contained implementation \\
+		Gate level modeling with \textbf{FPGA} library support &
+		Better \textbf{ASIC} support, user defined primitives \\
+		Assertions & No assertions \\
+		No named events & Named events \\
 		\lstset{language=VHDL}
-		Partial interface abstraction via \lstinline|component| definitions                                  &
-		No interface abstraction                                                                                                                 \\
-		Packaging via actual packages                                                                        &
-		Packaging via include files                                                                                                              \\
-		Useful for high-level modeling                                                                       &
-		Better suited for low-level modeling                                                                                                     \\
+		Partial interface abstraction via \lstinline|component| definitions &
+		No interface abstraction \\
+		Packaging via actual packages &
+		Packaging via include files \\
+		Useful for high-level modeling &
+		Better suited for low-level modeling \\
 	\end{tabular}
 \end{table}
 \begin{table}[H]
 	\center \rowcolors{2}{white}{black!10}
 	\begin{tabular} { p{7cm} | p{7cm} }
-		More verbose, meant to act both as design and documentation           &
-		Less verbose, no packaging capability, harder to extend                                                   \\
+		More verbose, meant to act both as design and documentation &
+		Less verbose, no packaging capability, harder to extend \\
 		Unambiguous semantics and easily portable desings, no race conditions &
 		Ambiguous emulation semantics, race conditions possible, different vendors might have different semantics \\
-		No simulation control defined in language                             &
+		No simulation control defined in language &
 		Basic simulation control defined in language
 	\end{tabular}
 \end{table}
@@ -383,7 +383,7 @@ Today, HDLs are increasingly used for designing ICs in a \textit{top-down} appro
 \begin{enumerate}
 	\item We \textit{design} the circuit through high-level descriptions;
 	\item We leave the conversion to a low-level representation to \textit{synthesis} tools, which automatically convert HDL behavior to HDL circuits;
-	\item The last step is, of course, \textit{simulation} to validate the design against the original high-level description.
+	\item The last step is, of course, \textit{simulation} to validate the design against the original high-level description. 
 \end{enumerate}
 
 Synthesis is not the objective of this course.
