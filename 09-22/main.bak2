@@ -335,7 +335,7 @@ Another difference is that Verilog is more fit for low-level work than VHDL.
 
 We said that Verilog will be studied by difference.
 
-Other differences to note are in the table:
+Other differences to note are noted in the table:
 \begin{table}[H]
 	\center \rowcolors{2}{white}{black!10}
 	\begin{tabular} { p{7cm} | p{7cm} }
@@ -363,11 +363,16 @@ Other differences to note are in the table:
 		Packaging via include files                                                                                                              \\
 		Useful for high-level modeling                                                                       &
 		Better suited for low-level modeling                                                                                                     \\
-		More verbose, meant to act both as design and documentation                                          &
-		Less verbose, no packaging capability, harder to extend                                                                                  \\
-		Unambiguous semantics and easily portable desings, no race conditions                                &
-		Ambiguous emulation semantics, race conditions possible, different vendors might have different semantics                                \\
-		No simulation control defined in language                                                            &
+	\end{tabular}
+\end{table}
+\begin{table}[H]
+	\center \rowcolors{2}{white}{black!10}
+	\begin{tabular} { p{7cm} | p{7cm} }
+		More verbose, meant to act both as design and documentation           &
+		Less verbose, no packaging capability, harder to extend                                                   \\
+		Unambiguous semantics and easily portable desings, no race conditions &
+		Ambiguous emulation semantics, race conditions possible, different vendors might have different semantics \\
+		No simulation control defined in language                             &
 		Basic simulation control defined in language
 	\end{tabular}
 \end{table}
