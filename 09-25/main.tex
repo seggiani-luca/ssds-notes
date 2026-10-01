@@ -765,6 +765,12 @@ We use signals in \textit{port maps}.
 
 \textbf{\textsf{Port maps}} are parts of \textit{component instantiations} that map the ports of a component to other ports of the root entity, or signals defined within that entity.
 
+A number of other methods of synthesizing combinatorial circuits exist.
+These are mainly based around finding the minimum set of components (AND, OR, NOT) needed to implement a certain boolean function.
+Mathematically, we say that this process involves finding a \textbf{SoP} (\textit{Sum of Products}) form, where sums are to be taken as OR operations and products as AND operations.
+The SoP can be found by many methods, namely the \textit{Quine McClusky} algorithm and the \textit{Karnaugh Map} method.
+Some other help about this topic can be found in the author's notes at \url{https://seggiani-luca.github.io/appunti/triennale/2/reti-logiche.html}.
+
 \par\smallskip
 
 At this point some more things about \textit{testbenches} should be clear:
@@ -980,10 +986,10 @@ There are two reserved library names always available to designers:
 \begin{itemize}
 	\item \texttt{work}: predefined library;
 	\item \texttt{STD}: it contains 2 packages:
-\begin{itemize}
-	\item \texttt{STANDARD} provides declaration for predefined types (real, integers, Boolean, etc);
-	\item \texttt{TEXTIO} contains useful subprograms that enables to perform ASCII file manipulation.
-\end{itemize}
+	      \begin{itemize}
+		      \item \texttt{STANDARD} provides declaration for predefined types (real, integers, Boolean, etc);
+		      \item \texttt{TEXTIO} contains useful subprograms that enables to perform ASCII file manipulation.
+	      \end{itemize}
 \end{itemize}
 
 The statement \lstinline|library STD;| declares STD to be a library.
