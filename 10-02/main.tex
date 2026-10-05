@@ -22,14 +22,9 @@
 \usepackage{karnaugh-map}
 
 % imposta il titolo
-\title{Specification and Simulation of Embedded Systems notes}
+\title{Specification and Simulation of Digital Systems notes}
 \author{Luca Seggiani}
 \date{2026}
-
-% spaziatura liste
-\usepackage{enumitem}
-\setlist[itemize]{noitemsep, topsep=4pt, partopsep=0pt, parsep=2pt, leftmargin=*}
-\setlist[enumerate]{noitemsep, topsep=4pt, partopsep=0pt, parsep=2pt, leftmargin=*}
 
 % imposta lo stile
 % usa helvetica
@@ -134,7 +129,6 @@
 		numbers=none, 
 		breaklines=true
 }
-
 
 \lstdefinelanguage{x86}{ 
   keywords={AAA, AAD, AAM, AAS, ADC, ADCB, ADCW, ADCL, ADD, ADDB, ADDW, ADDL, AND, ANDB, ANDW, ANDL,
@@ -355,13 +349,232 @@
 \makeatother
 
 \begin{document}
+% sezione (data)
+\section{Lesson 02-10-26}
 
-\pagestyle{fancy}
+% stili pagina
 \thispagestyle{empty}
-\renewcommand{\thispagestyle}[1]{}
+\pagestyle{fancy}
 
-\maketitle
-\input{../09-22/main.tex}
-\input{../09-25/main.tex}
-\input{../10-02/main.tex}
+% testo
+In the last lesson we introduced \textit{combinatorial} circuits.
+
+\subsection{Datapath components}
+
+We now move on to increasingly complex digital building blocks:
+\begin{itemize}
+	\item \textbf{Combinational}: gates, multiplexors, decoders, ...;
+	\item \textbf{Sequential}: basic registers, Finite State Machines, controller;
+\end{itemize}
+
+There is a notion of \textit{control}: \textit{controllers} are good for systems with control inputs/outputs, as opposed to data:
+\begin{itemize}
+	\item \textbf{Control input}: single bit (or a few), representing environment event or state;
+	\item \textbf{Data input}: multiple bits representing single entity.
+\end{itemize}
+
+Our focus will be on \textbf{datapath} components at the register-transfer-level, or \textbf{RTL}.
+These are usually networks \textit{controlled} by control networks, which perform functions with both:
+\begin{itemize}
+	\item Components to \textbf{store} data: registers;
+	\item Components to \textbf{transform} data: functional blocks.
+\end{itemize}
+
+\subsubsection{Multiplexers}
+
+We know from theory that \textbf{multiplexers} can implement any combinational logic function (basically a variation on \textit{Shannon's theorem}).
+This means that they can serve as \textbf{LUT}s (\textit{Look Up Tables}) in FPGAs.
+
+A few approaches can be proposed:
+\begin{enumerate}
+	\item An $m \times 2^n$ to $1$ multiplexer can implement $m$ functions of $n$ inputs. The steps are:
+\begin{itemize}
+	\item Write the truth tables for the $m$ functions;
+	\item Use the $n$ inputs as selection signals for the multiplexer;
+	\item Label the $m$ multiplexer outputs with the output functions;
+	\item Set to 0 or 1 according to each truth table the data inputs of the multiplexer
+\end{itemize}
+	\item An inverter and an $m \times 2^n$ to $1$ multiplexer can implement $m$ functions of $n$ inputs. The steps are:
+		\begin{itemize}
+\item Write the truth tables for the m functions
+\item Based on $n-1$ inputs identify pairs of rows in the tables
+\item For each pair and output, identify an elementary function of the $n$-th input $X$ (that is constant 0 or 1, or $X$ or its negation); 
+\item Using the first $n-1$ inputs as indices, assign the data inputs of the multiplexer with the appropriate elementary functions.
+		\end{itemize}
+\end{enumerate}
+
+The inverter is clearly used to generate $X'$ (negation) in the elementary function, if needed.
+
+\subsubsection{Adders}
+
+Let's now focus on \textbf{adders}.
+Adders have the (apparently) trivial job of adding toghether two $N$ bit binary numbers.
+
+\par\smallskip
+\textbf{\textsf{Table approach}}
+
+They can be designed using combinational design procedures, but this doesn’t work well for typical $N$ (8, 16, 32, ...).
+The approach scales terribly, as the truth table simply becomes too big to be directly expressed via Shannon expansion.
+
+\par\smallskip
+\textbf{\textsf{Hierarchical approach}}
+
+The idea, then, is to implement in hardware what we usually do to sum numbers by hand:
+\begin{enumerate}
+	\item One column at a time;
+	\item Compute sum of single column;
+	\item Carry to next column;
+	\item Repeat until done.
+\end{enumerate}
+
+This is trivial (and boring) in hardware, with ripple carry:
+\begin{center}
+	\includegraphics[scale=0.25]{../figures/adder.png}
+\end{center}
+
+Two components are used in the figure: an \textit{half adder}, and a set of \textit{adders}.
+Using half-adder and full-adders, we can build adder that adds like
+we would by hand:
+\begin{itemize}
+	\item The component is called a \textit{ripple-carry adder};
+\item 4-bit adder shown: Adds two 4-bit numbers, generates 5-bit output;
+\item 5-bit output can be considered 4-bit “sum” plus 1-bit “carry out”;
+\item We can easily build any size adder.
+\end{itemize}
+
+\par\smallskip
+\textbf{\textsf{Half adder}}
+
+The \textbf{half adder} is the most trivial component: it takes 2 bits ($a$ and $b$) and returns:
+\begin{itemize}
+	\item $s$, the LSB of the sum of the bits;
+	\item $c_{out}$, the MSB of the sum of the bits (they can evaluate to binary 2, which is 10).
+\end{itemize}
+
+The half adder is easy to implement both via LUTs, but also via discrete logic gates:
+$$
+s = a \otimes b, \quad c_{out} = a \cdot b
+$$
+where $\otimes$ is notation for XOR. 
+
+
+\par\smallskip
+\textbf{\textsf{Adder}}
+
+The \textbf{adder} (or \textbf{full} \textit{adder}) is the slightly more complicated variant of the half adder: it sums 3 inputs instead of 2.
+This is needed to correctly implement ripple carries, as we have the two digits at column $i$ plus the ripple carry from column $i - 1$ (which is always zero for the first digit, therefore justifying an half adder).
+
+The full adder takes 3 bits ($a$, $b$ and $c_{in}$) and returns:
+\begin{itemize}
+	\item $s$, the LSB of the sum of the bits;
+	\item $c_{out}$, the MSB of the sum of the bits (they can evaluate to binary 2, which is 10, or even binary 3, which is 11).
+\end{itemize}
+
+The full adder is easy to implement both via LUTs, but also via discrete logic gates or hierarchically, with half adders:
+$$
+s = a \otimes b \otimes c_{in}, \quad c_{out} = ab + ac_{in} + bc_{in} = (a \otimes b) \cdot c_{in} + a \cdot b
+$$
+
+Note that the XOR operator (again, $\otimes$) acts as a \textit{disparity checker} operator: for $\otimes_i^n \alpha_i$, if a odd number of $\alpha_i$ inputs are high, the XOR operator returns true. 
+
+\par\smallskip
+
+Note that using a full-adder instead of half-adder for first bit, we can include a “carry in” bit in the addition circuit.
+This is useful later when we connect smaller adders to form bigger adders.
+
+\par\smallskip
+\textbf{\textsf{Adder timing characteristics}}
+
+Ripple carry adders have specific timing behavoir: operations have to propagate (that is, \textit{ripple}) through all adder modules for the results to be correct.
+This gives non-ideal timing characteristics (more bits mean significantly more delay, with linear scaling).
+
+\subsubsection{Comparators}
+
+We would now want to \textbf{compare} data, that is build a device which outputs 1 if two N-bit numbers are equal.
+
+\par\smallskip
+\textbf{\textsf{Equality comparator}}
+
+If we are taking the \textbf{equality} of numbers, this is trivial. 
+This is easy to achieve via XORs.
+For instance, for 4 bits:
+$$
+eq = (a_3 b_3 + a_3' b_3') \cdot (a_2 b_2 + a_2' b_2') \cdot
+     (a_1 b_1 + a_1' b_1') \cdot (a_0 b_0 + a_0' b_0')
+$$
+
+\begin{center}
+	\includegraphics[scale=0.22]{../figures/comparator.png}
+\end{center}
+
+\par\smallskip
+\textbf{\textsf{Magnitude comparator}}
+
+We might also want a \textit{magnitude}, comparator.
+We consider comparing by hand:
+\begin{itemize}
+\item First compare $a_3$ and $b_3$. If equal, compare $a_2$ and $b_2$. And so on;
+\item Stop if comparison not equal (the two
+bits are 0 and 1, or 1 and 0): 
+whichever of A or B has the 1 is thus
+greater.
+\item If we never see an unequal bit pair,
+then A=B.
+\end{itemize}
+
+This gives us the following circuit:
+\begin{center}
+	\includegraphics[scale=0.22]{../figures/mag_comparator.png}
+\end{center}
+
+Of course, we do need a single digit comparator.
+Thankfully, this is easy to accomplish.
+
+\subsubsection{Arithmetic Logic Units}
+
+An \textbf{ALU} (\textit{Arithmetic Logic Unit}) is a component that can perform
+various arithmetic (add, subtract,
+increment, etc.) and logic (AND,
+OR, etc.) operations, based on
+control inputs.
+
+\begin{center}
+	\includegraphics[scale=0.25]{../figures/alu.png}
+\end{center}
+
+\begin{itemize}
+	\item 
+The simplest way to implement an ALU is using separate
+components for each operation, and
+muxes. This, though, requires too many wires, and also wastes
+power computing operations when we
+only actually use one result at given time.
+\item
+Because of this, ALU designs don't just have separate components, multiplexed togheter.
+Most ALU designs use a \textit{single adder}, plus logic in front of adder’s A and B inputs. 
+This logic is called an \textbf{arithmetic-logic extender}: the extender modifies A and B inputs so desired operation appears at output of the adder
+.
+
+\begin{center}
+	\includegraphics[scale=0.22]{../figures/extendo.png}
+\end{center}
+
+\end{itemize}
+
+\subsection{VHDL delay models}
+
+\lstset{language=VHDL}
+
+There are 3 ways to model delays in VHDL:
+\begin{enumerate}
+	\item \textbf{Inertial delay} deletes pulses that are less than a threshold long. This is suitable for modeling delays through devise such as gate. The syntax is: \\ \lstinline|Y1 <= not(A and B) after 7ns;|
+
+	\item \textbf{Transport delay} transports all pulses, i.e., all input events are propagated to output signals. It models delays through devices with very small inertia, e.g, wires: seldom used in hardware design. The syntax is: \\ \lstinline|Y2 <= not(A and B) transport after 7ns;|
+
+	\item \textbf{Delta delay} means no propagation delays are specified.
+Infinitesimally small delay is automatically inserted by the
+simulator to preserve correct ordering of events (projected
+values become current values).
+\end{enumerate}
+
 \end{document}
