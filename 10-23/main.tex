@@ -391,16 +391,16 @@ A \textbf{design metric} is a measurable feature of a system’s implementation.
 
 Some common metrics are:
 \begin{itemize}
-\item \textbf{Unit cost}: the monetary cost of manufacturing each copy of the system, excluding NRE cost;
-\item \textbf{NRE cost} (\textit{Non-Recurring Engineering cost}): the one-time monetary cost of designing the system;
-\item \textbf{Size}: the physical space required by the system;
-\item \textbf{Performance}: the execution time or throughput of the system;
-\item \textbf{Power}: the amount of power consumed by the system;
-\item \textbf{Flexibility}: the ability to change the functionality of the system without incurring heavy NRE costs;
-\item \textbf{Time-to-prototype}: the time needed to build a working version of the system;
-\item \textbf{Time-to-market}: the time required to develop a system to the point that it can be released and sold to customers;
-\item \textbf{Maintainability}: the ability to modify the system after its initial release;
-\item Other metrics include \textit{correctness}, \textit{safety}, ... 
+	\item \textbf{Unit cost}: the monetary cost of manufacturing each copy of the system, excluding NRE cost;
+	\item \textbf{NRE cost} (\textit{Non-Recurring Engineering cost}): the one-time monetary cost of designing the system;
+	\item \textbf{Size}: the physical space required by the system;
+	\item \textbf{Performance}: the execution time or throughput of the system;
+	\item \textbf{Power}: the amount of power consumed by the system;
+	\item \textbf{Flexibility}: the ability to change the functionality of the system without incurring heavy NRE costs;
+	\item \textbf{Time-to-prototype}: the time needed to build a working version of the system;
+	\item \textbf{Time-to-market}: the time required to develop a system to the point that it can be released and sold to customers;
+	\item \textbf{Maintainability}: the ability to modify the system after its initial release;
+	\item Other metrics include \textit{correctness}, \textit{safety}, ...
 \end{itemize}
 
 \subsubsection{Technologies}
@@ -408,16 +408,16 @@ Some common metrics are:
 Optimizing means choosing techonologies, so let's go over the 3 main types:
 \begin{itemize}
 	\item \textbf{VLSI} (\textit{Very Large Scale Integration}), also known as full custom, all layers are optimized for an embedded system’s particular digital implementation.
-This means placing and sizing transistors, routing wires, ...
+	      This means placing and sizing transistors, routing wires, ...
 
-The benefits are excellent performance, small size, low power, at the cost of high NRE cost and time-to-market;
-\item \textbf{ASIC}s (\textit{Application Specific Integrated Circuits}), lower layers are fully or partially built, and designers are left with routing of wires and maybe placing some blocks. 
+	      The benefits are excellent performance, small size, low power, at the cost of high NRE cost and time-to-market;
+	\item \textbf{ASIC}s (\textit{Application Specific Integrated Circuits}), lower layers are fully or partially built, and designers are left with routing of wires and maybe placing some blocks.
 
-	The benefits are good performance, good size, less NRE cost than a full-custom solution. Time-to-market and costs are still pretty high, though;
-\item \textbf{PLDs} (\textit{Programmable Logic Devices}): all layers already exist, designers can purchase an IC, and the connections on the IC are either created or destroyed to implement desired functionality (usually via a software programmer). \textit{Field-Programmable Gate Array} (\textbf{FPGA}s) are very popular PLDs.
+	      The benefits are good performance, good size, less NRE cost than a full-custom solution. Time-to-market and costs are still pretty high, though;
+	\item \textbf{PLDs} (\textit{Programmable Logic Devices}): all layers already exist, designers can purchase an IC, and the connections on the IC are either created or destroyed to implement desired functionality (usually via a software programmer). \textit{Field-Programmable Gate Array} (\textbf{FPGA}s) are very popular PLDs.
 
-	The benefits are low NRE costs, almost instant IC availability, while the drawback is that PLDs are bigger, expensive (per-unit) and, power hungry.
-hungry, slower
+	      The benefits are low NRE costs, almost instant IC availability, while the drawback is that PLDs are bigger, expensive (per-unit) and, power hungry.
+	      hungry, slower
 \end{itemize}
 
 \subsubsection{Design flow}
@@ -465,7 +465,7 @@ A better approach is to use an FSM governing a register.
 	\includegraphics[scale=0.22]{../figures/hslm_cnt_state.png}
 \end{center}
 
-Note that this can be interpreted as an FSM where the status register is \textit{"extended"} by the bits of the counter register. 
+Note that this can be interpreted as an FSM where the status register is \textit{"extended"} by the bits of the counter register.
 \begin{center}
 	\includegraphics[scale=0.22]{../figures/hlsm_cnt.png}
 \end{center}
