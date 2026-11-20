@@ -377,22 +377,22 @@ Many ROM manufacturing techniques are possible:
 \begin{itemize}
 	\item \textbf{MPROM} or \textit{Mask-programmed ROM}: bits are hardwired as 0s or 1s during chip manufacturing. The wword enable (from decoder) simply passes the hardwired value through a transistor. Notice how compact, and fast, this memory layout is;
 	\item \textbf{OTPROM} or \textit{One-Time Programmable ROM} , which is usually\textit{Fuse-Based Programmable ROM}: each cell has a fuse. A special device, known as a programmer,
-blows certain fuses (using higher-than-normal voltage). Those cells will be read as 0s (involving some special electronics), whereas unblown ones will be read as 1s;
+	      blows certain fuses (using higher-than-normal voltage). Those cells will be read as 0s (involving some special electronics), whereas unblown ones will be read as 1s;
 	\item \textbf{EPROM} or \textit{Erasable Programmable ROM}: uses floating-gate transistors (FAMOS) which rely on tunneling to move the threshold voltage. A special programmer device uses higher-than-normal voltage to cause electrons to tunnel into the gate: electrons become trapped in the gate.
-This is only done for cells that should store 0.
-Other cells (without electrons trapped in gate)
-will be 1.
+	      This is only done for cells that should store 0.
+	      Other cells (without electrons trapped in gate)
+	      will be 1.
 
-To erase, we shine ultraviolet light onto the chip (through a special window.)
-This gives trapped electrons energy to escape.
+	      To erase, we shine ultraviolet light onto the chip (through a special window.)
+	      This gives trapped electrons energy to escape.
 
-\item \textbf{EEPROM} or \textit{Electronically Erasable Programmable ROM}: similar to EPROM: uses floating-gate transistors (FLOTOX) and electronic programming to trap electrons in certain cells.
+	\item \textbf{EEPROM} or \textit{Electronically Erasable Programmable ROM}: similar to EPROM: uses floating-gate transistors (FLOTOX) and electronic programming to trap electrons in certain cells.
 
-The difference is that erasing is done electronically, not using UV light.
-Note that at this point we're really pushing the limit of what a ROM is!
+	      The difference is that erasing is done electronically, not using UV light.
+	      Note that at this point we're really pushing the limit of what a ROM is!
 
-\item \textbf{Flash} memory: like EEPROM, but all words (or large blocks of words) can
-be erased simultaneously. It became very common starting in late 1990s.
+	\item \textbf{Flash} memory: like EEPROM, but all words (or large blocks of words) can
+	      be erased simultaneously. It became very common starting in late 1990s.
 \end{itemize}
 
 Both types are \textit{in-system programmable}: they an be programmed with new stored bits while in the system in which the ROM operates.
@@ -404,12 +404,12 @@ We also need a busy output to indicate that erasing is in progress, as erasing t
 We now know how to build digital circuits, but how can we now build \textit{better} circuits?
 Let’s consider two important design criteria:
 \begin{itemize}
-\item \textbf{Delay}: the time from inputs changing to new correct stable output;
-\item \textbf{Size}: the number of transistors.
+	\item \textbf{Delay}: the time from inputs changing to new correct stable output;
+	\item \textbf{Size}: the number of transistors.
 \end{itemize}
 
 For quick estimation, we want to assume that every gate has delay of “1 gate-delay” (not too far off from actual CMOS design technique).
-Every gate input requires 2 transistors, for the inverter: we decide to ignore this (as its usually done in optimization). 
+Every gate input requires 2 transistors, for the inverter: we decide to ignore this (as its usually done in optimization).
 
 \begin{center}
 	\includegraphics[scale=0.18]{../figures/optimiz.png}
@@ -418,7 +418,7 @@ Every gate input requires 2 transistors, for the inverter: we decide to ignore t
 We won't cover algorithms such as \textit{Quine-McCluskey}, \textit{Karnaugh maps}, or even heuristic techniques because it would be the third time i covered them in my notes.
 We are, on the other hand, going to look into sequential logic optimization.
 
-\subsubsection{State reduction}
+\subsection{State reduction}
 
 Our objective in \textbf{state reduction} is to reduce
 number of states in FSM without

@@ -367,44 +367,44 @@ This is also known as a \textbf{single-purpose processor}.
 
 The idea is to convert each C construct to equivalent states and transitions:
 \begin{itemize}
-		\item \textbf{Assignment statement}
-			becomes one state with assignment;
+	\item \textbf{Assignment statement}
+	      becomes one state with assignment;
 
-		\begin{center}
-			\includegraphics[scale=0.3]{../figures/c_ass.png}
-		\end{center}
+	      \begin{center}
+		      \includegraphics[scale=0.3]{../figures/c_ass.png}
+	      \end{center}
 
-		\item \textbf{If-then statement}
-			becomes state with condition check,
-            transitioning to ``then'' statements if
-            condition true, otherwise to ending
-            state.
-            ``then'' statements would also be
-            converted to states;
+	\item \textbf{If-then statement}
+	      becomes state with condition check,
+	      transitioning to ``then'' statements if
+	      condition true, otherwise to ending
+	      state.
+	      ``then'' statements would also be
+	      converted to states;
 
-		\begin{center}
-			\includegraphics[scale=0.3]{../figures/c_if.png}
-		\end{center}
+	      \begin{center}
+		      \includegraphics[scale=0.3]{../figures/c_if.png}
+	      \end{center}
 
-		\item \textbf{If-then-else}
-            Becomes state with condition check,
-            transitioning to ``then'' statements if
-            condition true, or to ``else'' statements
-            if condition false;
+	\item \textbf{If-then-else}
+	      Becomes state with condition check,
+	      transitioning to ``then'' statements if
+	      condition true, or to ``else'' statements
+	      if condition false;
 
-		\begin{center}
-			\includegraphics[scale=0.3]{../figures/c_if_then.png}
-		\end{center}
+	      \begin{center}
+		      \includegraphics[scale=0.3]{../figures/c_if_then.png}
+	      \end{center}
 
-		\item \textbf{While loop statement}
-             Becomes state with condition check,
-            transitioning to while loop's
-            statements if true, then transitioning
-            back to condition check.
-		
-		\begin{center}
-			\includegraphics[scale=0.3]{../figures/c_while.png}
-		\end{center}
+	\item \textbf{While loop statement}
+	      Becomes state with condition check,
+	      transitioning to while loop's
+	      statements if true, then transitioning
+	      back to condition check.
+
+	      \begin{center}
+		      \includegraphics[scale=0.3]{../figures/c_while.png}
+	      \end{center}
 \end{itemize}
 
 So we can:
@@ -435,10 +435,10 @@ Optimization is the task of making design metric values the best possible.
 
 Areas of possible improvements in the \textbf{HLSM}:
 \begin{itemize}
-\item Merge states: states with constants on transitions can be eliminated, transition taken is already known states with independent operations can be merged;
-\item Separate states: states which require complex operations  can be broken into smaller states to reduce hardware size;
-\item State encoding: the task of assigning a unique bit pattern to each state in an FSM. Size of state register and combinational logic vary, can be treated as an ordering problem;
-\item State minimization: the task of merging equivalent states into a single state. States are equivalent iff for all possible input combinations they generate the same outputs and transitions to the same or equivalent next states.
+	\item Merge states: states with constants on transitions can be eliminated, transition taken is already known states with independent operations can be merged;
+	\item Separate states: states which require complex operations  can be broken into smaller states to reduce hardware size;
+	\item State encoding: the task of assigning a unique bit pattern to each state in an FSM. Size of state register and combinational logic vary, can be treated as an ordering problem;
+	\item State minimization: the task of merging equivalent states into a single state. States are equivalent iff for all possible input combinations they generate the same outputs and transitions to the same or equivalent next states.
 \end{itemize}
 
 The \textbf{datapath} can also benefit from some fucking around:
@@ -454,10 +454,10 @@ The result \texttt{Z\_out} belongs to the range $[0, 2^n - 1]$. Start signals av
 
 The idea is to use the recurrence relation:
 $$
-\begin{cases}
-	Z_0 = 0 \\
-	Z_{i + 1} = \frac{1}{2}\left( Z_i + X \cdot 2^n \cdot Y_i \right)
-\end{cases}
+	\begin{cases}
+		Z_0 = 0 \\
+		Z_{i + 1} = \frac{1}{2}\left( Z_i + X \cdot 2^n \cdot Y_i \right)
+	\end{cases}
 $$
 
 The result will simply be $Z_n$.
@@ -497,11 +497,11 @@ It is logically same as register file—Memory with address inputs, data inputs/
 
 Let's quickly compare RAM and register files:
 \begin{itemize}
-\item RAM typically larger than about 512 or 1024 words;
-\item RAM typically stores bits using a bit storage approach that is more efficient than a flip-flop;
-\item RAM is typically implemented on a chip in a square
-rather than rectangular shape—keeps longest wires
-(hence delay) short.
+	\item RAM typically larger than about 512 or 1024 words;
+	\item RAM typically stores bits using a bit storage approach that is more efficient than a flip-flop;
+	\item RAM is typically implemented on a chip in a square
+	      rather than rectangular shape—keeps longest wires
+	      (hence delay) short.
 \end{itemize}
 
 \end{document}

@@ -370,7 +370,7 @@ The idea is to:
 The model that works for us is the \textbf{FSM-D} model: \textit{FSM with Datapath}.
 \begin{itemize}
 	\item The \textbf{controller} is a classical FSM, easy to design with our known behavioral models, easy to synthesize;
-	\item The \textbf{Datapath}, given in a structural or behavioral description, contains the functions controlled by the datapath. 
+	\item The \textbf{Datapath}, given in a structural or behavioral description, contains the functions controlled by the datapath.
 \end{itemize}
 
 \begin{center}
@@ -385,25 +385,25 @@ Note that the datapath is not necessarily only combinatorial: it can contain seq
 
 Let's now look at the actual design procedure.
 \begin{enumerate}
-	\item 
-Describe the system's desired behavior as a high-level state machine.
-The state machine consists of states and transitions. The state machine
-is "high-level" because the transition conditions and the state actions
-are more than just Boolean operations on single-bit inputs and outputs;
+	\item
+	      Describe the system's desired behavior as a high-level state machine.
+	      The state machine consists of states and transitions. The state machine
+	      is "high-level" because the transition conditions and the state actions
+	      are more than just Boolean operations on single-bit inputs and outputs;
 
-\item 
-Create a datapath to carry out the data operations of the high-level
-state machine;
+	\item
+	      Create a datapath to carry out the data operations of the high-level
+	      state machine;
 
-\item 
-Connect the datapath to a controller block. Connect external control
-inputs and outputs to the controller block;
+	\item
+	      Connect the datapath to a controller block. Connect external control
+	      inputs and outputs to the controller block;
 
-\item
+	\item
 
-Convert the high-level state machine to a finite-state machine (FSM)
-tor the controller, by replacing data operations with setting and reading
-of control signals to and from the datapath.
+	      Convert the high-level state machine to a finite-state machine (FSM)
+	      tor the controller, by replacing data operations with setting and reading
+	      of control signals to and from the datapath.
 \end{enumerate}
 
 \par \smallskip
@@ -411,59 +411,59 @@ of control signals to and from the datapath.
 We now introduce two categories of FSM-D design.
 
 \begin{itemize}
-	\item 
-In \textbf{control dominated design} we have complex controller controlling a simple datapath.
+	\item
+	      In \textbf{control dominated design} we have complex controller controlling a simple datapath.
 
-Let's take, as an example, a \textit{bridge} component.
-This is a single-purpose processor
-that converts two 4-bit inputs,
-arriving one at a time over
-\texttt{data\_in} along with a \texttt{rdy\_in}
-pulse, into one 8-bit output on
-\texttt{data\_out} along with a \texttt{rdy\_out}
-pulse.
+	      Let's take, as an example, a \textit{bridge} component.
+	      This is a single-purpose processor
+	      that converts two 4-bit inputs,
+	      arriving one at a time over
+	      \texttt{data\_in} along with a \texttt{rdy\_in}
+	      pulse, into one 8-bit output on
+	      \texttt{data\_out} along with a \texttt{rdy\_out}
+	      pulse.
 
-Explained via the state diagram:
+	      Explained via the state diagram:
 
-\begin{center}
-	\includegraphics[scale=0.22]{../figures/cc_fsm.png}
-\end{center}
+	      \begin{center}
+		      \includegraphics[scale=0.22]{../figures/cc_fsm.png}
+	      \end{center}
 
 
-\begin{center}
-	\includegraphics[scale=0.22]{../figures/cdrtld.png}
-\end{center}
+	      \begin{center}
+		      \includegraphics[scale=0.22]{../figures/cdrtld.png}
+	      \end{center}
 
-\item
-	The alternative is \textbf{data dominated design}, where we have an extensive datapath and a simple controller. A good example is a filter, which converts digital input stream to new digital output stream, for instance to remove \textit{noise}.
+	\item
+	      The alternative is \textbf{data dominated design}, where we have an extensive datapath and a simple controller. A good example is a filter, which converts digital input stream to new digital output stream, for instance to remove \textit{noise}.
 
-\begin{center}
-	\includegraphics[scale=0.25]{../figures/filter.png}
-\end{center}
+	      \begin{center}
+		      \includegraphics[scale=0.25]{../figures/filter.png}
+	      \end{center}
 
-A simple filter gives as an output the weighted sum of the last $N$ values.
-Small $N$ means less filtering, and large $N$ means more filtering, but less sharp output.
+	      A simple filter gives as an output the weighted sum of the last $N$ values.
+	      Small $N$ means less filtering, and large $N$ means more filtering, but less sharp output.
 
-If the weights of the sum can be chosen, then this is a \textbf{FIR} (\textit{Finite Impulse Response}) filter. Simply a configurable weighted sum of past input values:
-$$
-Y(t) = W_0 \cdot X(t) + W_1 \cdot X(t - 1) + C_w \cdot X(t - 2)
-$$
-This is known as a \textit{3-tap} filter, as it involves 3 multiplicatory terms.
-Tens of taps per filter are more common.
-Know that this is a very general filter: the designer sets the
-constants ($W_0$, $W_1$, $W_2$) to define a specific filter behavior.
+	      If the weights of the sum can be chosen, then this is a \textbf{FIR} (\textit{Finite Impulse Response}) filter. Simply a configurable weighted sum of past input values:
+	      $$
+		      Y(t) = W_0 \cdot X(t) + W_1 \cdot X(t - 1) + C_w \cdot X(t - 2)
+	      $$
+	      This is known as a \textit{3-tap} filter, as it involves 3 multiplicatory terms.
+	      Tens of taps per filter are more common.
+	      Know that this is a very general filter: the designer sets the
+	      constants ($W_0$, $W_1$, $W_2$) to define a specific filter behavior.
 
-From the hardware standpoint, this is simply a set of multiplication circuits, plus an adder for all terms.
+	      From the hardware standpoint, this is simply a set of multiplication circuits, plus an adder for all terms.
 
-The FSM is trivial, as mostly we want to keep state in our storage devices (for each sampled tap value).
-\begin{center}
-	\includegraphics[scale=0.25]{../figures/fir_fir.png}
-\end{center}
+	      The FSM is trivial, as mostly we want to keep state in our storage devices (for each sampled tap value).
+	      \begin{center}
+		      \includegraphics[scale=0.25]{../figures/fir_fir.png}
+	      \end{center}
 
-Now, the datapath for this is far more complex, because the operations we seek to implement is arithmetically more complex:
-\begin{center}
-	\includegraphics[scale=0.25]{../figures/firdp.png}
-\end{center}
+	      Now, the datapath for this is far more complex, because the operations we seek to implement is arithmetically more complex:
+	      \begin{center}
+		      \includegraphics[scale=0.25]{../figures/firdp.png}
+	      \end{center}
 
 \end{itemize}
 
@@ -479,7 +479,7 @@ If clock is any faster, incorrect data may be stored into our registers.
 
 Good news! An abstraction level higher than RTL.
 
-HLSM was already pretty high-level, but even higher is sometimes needed for certain applications. 
+HLSM was already pretty high-level, but even higher is sometimes needed for certain applications.
 In an \textbf{algorithmic-level} description, behavior is described as sequence of steps, similar to sequential program.
 
 Video compression, for example, computes sum of absolute differences (SAD) of corresponding pairs in two arrays. It is a common task in video compression to determine difference between two successive video frames.
